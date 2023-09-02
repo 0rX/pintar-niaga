@@ -9,3 +9,17 @@
 
 // Icons
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+
+.parallax {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.parallax-text h1:hover {
+    position: absolute;
+    font-size: 15em;
+    color: #777;
+}

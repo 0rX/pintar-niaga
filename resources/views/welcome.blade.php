@@ -1,22 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    parallax-text
+</style>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Bukan Dashboard Anjing') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
+            <section class="parallax">
+                <h1 class="parallax-text">Parallax</h2>
+                <h1 class="parallax-text">Website</h2>
+                </section>
         </div>
     </div>
 </div>
