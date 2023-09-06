@@ -10,16 +10,91 @@
 // Icons
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
+// Font Urbanist
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+    font-family: 'Urbanist';
+    font-weight: 400;
+    overflow-x: hidden;
+}
+
+#password {
+    font-family: monospace;
+}
+
+#password-confirm {
+    font-family: monospace;
+}
+
+
+.cover {
+    position: relative;
+    height: 500vh;
+}
+
 .parallax {
     position: relative;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: start;
+    margin-top: 200px;
+    //height: 30vh;
 }
 
-.parallax-text h1:hover {
-    position: absolute;
-    font-size: 15em;
-    color: #777;
+#middlebox {
+    font-size: 0px;
+    font-weight: 100;
+    text-shadow: 5px 5px 8px rgba(125, 0, 0, .5);
+    pointer-events: none;
+    opacity: 0%;
+}
+
+#parallax-text1 {
+    font-size: 75px;
+    font-weight: 700;
+    text-shadow: 4px 4px 6px rgba(125, 0, 0, .5);
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 100%;
+}
+
+#parallax-text2 {
+    font-size: 75px;
+    font-weight: 700;
+    text-shadow: 4px 4px 6px rgba(125, 0, 0, .5);
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 100%;
+}
+
+#middlebox2 {
+    font-size: 75px;
+    font-weight: 700;
+    text-shadow: 4px 4px 6px rgba(125, 0, 0, .5);
+    pointer-events: none;
+    opacity: 0%;
+    margin-left: 300px;
+}
+
+#parallax-text3 {
+    font-size: 75px;
+    font-weight: 700;
+    text-shadow: 4px 4px 6px rgba(125, 0, 0, .7);
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 0%;
+}
+
+#parallax-text4 {
+    font-size: 75px;
+    font-weight: 700;
+    text-shadow: 4px 4px 6px rgba(125, 0, 0, .7);
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 0%;
 }

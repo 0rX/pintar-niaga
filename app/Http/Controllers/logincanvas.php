@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Providers\RouteServiceProvider;
+//use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Session;
+
+class logincanvas extends Controller
+{
+   /**
+     * Handle an incoming request.
+     *
+     */
+    public function logincanvas(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication passed
+            return redirect()->intended('/home');
+        } else {
+            // Authentication failed
+            Session::put('flareOCV', true);
+            return back()->withErrors([
+                'email' => 'These Credentials Do Not Match Our Records',
+            ]);
+        }
+    }
+
+}

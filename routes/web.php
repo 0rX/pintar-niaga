@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,7 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\welcome::class, 'welcome'])->name('welcome');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home');
+
+Route::get('/remove-ocv-flag', [Controllers\RemoveOCVFlag::class, 'removeOCVFlag'])->name('removeOCVFlag');
+
+Route::post('/logincanvas', [Controllers\logincanvas::class, 'logincanvas'])->name('logincanvas');
