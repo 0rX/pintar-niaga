@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container" data-bs-theme="gray">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Bukan Dashboard Anjing') }}</div>
+                <div class="card-header">{{ __('STAFF DASHBOARD') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))

@@ -19,7 +19,6 @@
 <body class="antialiased fs-5" style="background-color: #343a40;">
     <div id="app">
         @include('layouts.navigation.top')
-        @include('layouts.navigation.offcanvaslogin')
         <main class="py-4">
             @yield('content')
         </main>

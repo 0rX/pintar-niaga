@@ -9,7 +9,7 @@
     <div class="pt-4 ps-3" data-bs-theme="dark">
         <button type="button" class="btn-close text-reset fs-6" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="pe-4">
+    <div class="me-4">
         <div class="offcanvas-header d-flex flex-row justify-content-center">
             <h5 class="h2 p-2" id="offcanvasLoginLabel">Login</h5>
         </div>

@@ -19,9 +19,12 @@ class logincanvas extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials) && Auth::user()->role == 'staff') {
             // Authentication passed
-            return redirect()->intended('/home');
+            return redirect()->route('staffDashboard');
+        } elseif (Auth::attempt($credentials) && Auth::user()->role == 'manager') {
+            // Authentication passed
+            return redirect()->route('managementDashboard');
         } else {
             // Authentication failed
             Session::put('flareOCV', true);

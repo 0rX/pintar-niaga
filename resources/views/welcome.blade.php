@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
+@guest
+    @include('layouts.navigation.offcanvaslogin')
+@endguest
 <div class="container cover justify-content-center">
     <div class="row justify-content-center">
         <div class="col-md-8">

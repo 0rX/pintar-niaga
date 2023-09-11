@@ -60,12 +60,12 @@
     
                             <div class="row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary fs-5">
                                         {{ __('Login') }}
                                     </button>
     
                                     @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        <a class="btn btn-link fs-5" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a>
                                     @endif
@@ -77,9 +77,9 @@
                             <label for="divider" class="pt-1 px-2 fs-6"> Don't have account yet ? </label>
                             <hr class="me-auto px-4">
                         </div>
-                        <div class="mx-auto">
+                        <div class="mx-auto mb-4">
                 
-                            <a href="{{ url('/register') }}" class="btn btn-success text-decoration-none fs-5">Create Account</a>
+                            <a href="{{ url('/register') }}" class="btn btn-link text-decoration-none fs-4 fw-800 text-success">Create Account</a>
                 
                         </div>
                     </div>

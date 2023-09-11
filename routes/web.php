@@ -1,7 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use App\Http\Controllers\welcome;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\logincanvas;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RemoveOCVFlag;
+use App\Http\Controllers\Staff\StaffDashboard;
+use App\Http\Controllers\Management\ManagementDashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +23,22 @@ use App\Http\Controllers;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\welcome::class, 'welcome'])->name('welcome');
+Route::get('/', [welcome::class, 'welcome'])->name('welcome');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home');
+Route::get('/remove-ocv-flag', [RemoveOCVFlag::class, 'removeOCVFlag'])->name('removeOCVFlag');
 
-Route::get('/remove-ocv-flag', [Controllers\RemoveOCVFlag::class, 'removeOCVFlag'])->name('removeOCVFlag');
+Route::post('/logincanvas', [logincanvas::class, 'logincanvas'])->name('logincanvas');
 
-Route::post('/logincanvas', [Controllers\logincanvas::class, 'logincanvas'])->name('logincanvas');
+/**
+ * Route accessible by 'staff' role only
+ */
+Route::middleware(['auth', 'role:staff'])->group(function () {
+    Route::get('/dashboard', [StaffDashboard::class, 'dashboard'])->name('staffDashboard');
+});
+
+/**
+ * Route accessible by 'manager' role only
+ */
+Route::prefix('management')->middleware(['auth', 'role:manager,staff'])->group(function() {
+    Route::get('/', [ManagementDashboard::class, 'index'])->name('managementDashboard');
+});

@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Staff;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class HomeController extends Controller
+class StaffDashboard extends Controller
 {
     /**
      * Create a new controller instance.
-     * NEED TO LOGIN TO VIEW THE HOME PAGE
-     * So we use this __construct function as a gate for auth detection
      * @return void
      */
     public function __construct()
@@ -24,6 +23,6 @@ class HomeController extends Controller
      */
     public function dashboard()
     {
-        return view('home');
+        return view('staff.dashboard');
     }
 }
