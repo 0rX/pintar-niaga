@@ -16,7 +16,6 @@
 body {
     font-family: 'Urbanist';
     font-weight: 400;
-    overflow-x: hidden;
 }
 
 #password {
@@ -69,33 +68,3 @@ body {
     pointer-events: none;
     opacity: 100%;
 }
-
-#middlebox2 {
-    font-size: 75px;
-    font-weight: 700;
-    text-shadow: 4px 4px 6px rgba(125, 0, 0, .5);
-    pointer-events: none;
-    opacity: 0%;
-    margin-left: 300px;
-}
-
-#parallax-text3 {
-    font-size: 75px;
-    font-weight: 700;
-    text-shadow: 4px 4px 6px rgba(125, 0, 0, .7);
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    opacity: 0%;
-}
-
-#parallax-text4 {
-    font-size: 75px;
-    font-weight: 700;
-    text-shadow: 4px 4px 6px rgba(125, 0, 0, .7);
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    opacity: 0%;
-}
-
