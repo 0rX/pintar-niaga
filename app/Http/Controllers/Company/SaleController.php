@@ -99,44 +99,56 @@ class SaleController extends Controller
         foreach ($cart_items as $item) {
             $total_amount += $item->total;
         }
-        // dd($total_amount);
 
-        // dd($cart_items);
         $saleData = [];
         $saleData['account_id'] = (int)$account_id;
         $saleData['company_id'] = $company->company_id;
         $saleData['total_amount'] = $total_amount;
-        // Purchase::truncate();
-        // PurchasedIngredient::truncate();
+        // Sale::truncate();
+        // UsedIngredient::truncate();
+        // dd(Sale::all());
         $account = Account::find((int)$account_id);
-        // dd($cart_items);
+        $balance = $account->balance + $total_amount;
+        $sale = Sale::create($saleData);
+        $account->update(['balance' => $balance]);
         foreach ($cart_items as $item) {
             $pd_index = $products->pluck('name')->search($item->itemName);
             $product = $products[$pd_index];
             // dd($product->recipe);
             $recipes = json_decode($product->recipe);
-            // dd($recipes);
+            // dd($item);
             foreach ($recipes as $recipe) {
-                // dd($recipe->name);
-                $ingredient = Ingredient::where('name', $recipe->name)->first();
-                dd($ingredient); //LAST DEBUG !!!! DON'T FORGET !!
+                // dd($recipe->amount);
+                $ingredient = null;
+                foreach ($ingredients as $currentIngredient) {
+                    if ($currentIngredient->name === $recipe->name) {
+                        $ingredient = $currentIngredient;
+                        break; // Found the ingredient, exit the loop
+                    }
+                }
+                if ($ingredient === null) {
+                    http_response_code(500);
+                    exit;
+                }
+                $amount_used = (int)$item->quantity*(int)$recipe->amount;
+                $update_stock = $ingredient->stock - $amount_used;
+                $ingredient->update(['stock' => $update_stock]);
+                $dataIngredientUsed = [];
+                $dataIngredientUsed['sale_id'] = $sale->sale_id;
+                $dataIngredientUsed['ingredient_id'] = $ingredient->ingredient_id;
+                $dataIngredientUsed['quantity'] = $amount_used;
+                UsedIngredient::create($dataIngredientUsed);
             }
-            $update_stock = $product->stock - (int)$item->quantity;
         }
-        $balance = $account->balance + $total_amount;
-        $sale = Sale::create($saleData);
-        $account->update(['balance' => $balance]);
         foreach ($cart_items as $item) {
-            $ig_index = $ingredients->pluck('name')->search($item->itemName);
-            $ingredient = $ingredients[$ig_index];
-            $update_stock = $ingredient->stock + (int)$item->quantity;
+            $pd_index = $products->pluck('name')->search($item->itemName);
+            $product = $products[$pd_index];
             $data = [];
-            $data['purchase_id'] = $purchase->purchase_id;
-            $data['ingredient_id'] = $ingredient->ingredient_id;
+            $data['sale_id'] = $sale->sale_id;
+            $data['product_id'] = $product->product_id;
             $data['quantity'] = (int)$item->quantity;
             $data['amount'] = $item->total;
-            PurchasedIngredient::create($data);
-            $ingredient->update(['stock' => $update_stock]);
+            SoldProduct::create($data);
         }
         return redirect()->back();
     }

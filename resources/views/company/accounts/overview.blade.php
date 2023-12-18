@@ -9,32 +9,79 @@
 <div class="container" data-bs-theme="light">
     <div class="row justify-content-center">
         <div class="col-md-11">
-            <div data-bs-theme="light" class="card border-1 mb-4" style="max-height: 800px;">
+            <div class="card mb-3">
                 <div class="card-body">
-                    <div class="row justify-content-end px-4 fs-2">
-                        {{ $account->name }}
-                    </div>
-                    <div class="row my-1 px-1">
-                        <div class="col-md-3 text-center border border-danger" style="height: 600px">
-                            asu
+                    <h5 class="card-title">Account Transactions</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Transaction Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table rows for sales -->
+                            @foreach ($sales as $sale)
+                            @php
+                                $sl_index = $sales->pluck('sale_id')->search($sale->sale_id) + 1;
+                            @endphp
+                                <tr>
+                                    <td>Sale - {{ $sl_index }}</td>
+                                    <td>Rp. {{ number_format($sale->total_amount) }}</td>
+                                    <td>{{ $sale->created_at }}</td>
+                                </tr>
+                            @endforeach
+                            
+                            <!-- Table rows for purchases -->
+                            @foreach ($purchases as $purchase)
+                            @php
+                                $pc_index = $purchases->pluck('purchase_id')->search($purchase->purchase_id) + 1;
+                            @endphp
+                                <tr>
+                                    <td>Purchase - {{ $pc_index }}</td>
+                                    <td>Rp. {{ number_format($purchase->total_amount) }}</td>
+                                    <td>{{ $purchase->created_at }}</td>
+                                </tr>
+                            @endforeach
+                            
+                            <!-- Table rows for cashins -->
+                            @foreach ($cashins as $cashin)
+                            @php
+                                $ci_index = $cashins->pluck('cash_in_id')->search($cashin->cash_in_id) + 1;
+                            @endphp
+                                <tr>
+                                    <td>(Cashin - {{ $ci_index }}) {{ $cashin->title }} </td>
+                                    <td>Rp. {{ number_format($cashin->total_amount) }}</td>
+                                    <td>{{ $cashin->created_at }}</td>
+                                </tr>
+                            @endforeach
+                            
+                            <!-- Table rows for payments -->
+                            @foreach ($payments as $payment)
+                                <tr>
+                                    <td>Payment</td>
+                                    <td>{{ $payment->amount }}</td>
+                                    <td>{{ $payment->date }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <!-- Content for the second card -->
                         </div>
-                        <div class="col-md-9 text-center border border-danger">
-                            <div class="card-body card-data-table">
-                                <div class="table">
-                                    <table class="table table-stripped">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Nama Akun</th>
-                                                <th scope="col">Kategori</th>
-                                                <th scope="col">Saldo Awal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <!-- Content for the third card -->
                         </div>
                     </div>
                 </div>

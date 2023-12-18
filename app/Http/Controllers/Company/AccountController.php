@@ -34,6 +34,12 @@ class AccountController extends Controller
         $accounts = $company->accounts;
         $ac_index -= 1;
         $account = $accounts[$ac_index];
+
+        $sales = $account->sales;
+        $purchases = $account->purchases;
+        $cashins = $account->cashins;
+        $payments = $account->payments;
+
         return view('company.accounts.overview', [
             'title' => 'Account Index',
             'user' => $user,
@@ -41,7 +47,11 @@ class AccountController extends Controller
             'ac_index' => $ac_index,
             'company' => $company,
             'accounts' => $accounts,
-            'account' => $account
+            'account' => $account,
+            'sales' => $sales,
+            'purchases' => $purchases,
+            'cashins' => $cashins,
+            'payments' => $payments
         ]);
     }
 
