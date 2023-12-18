@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -15,13 +15,93 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <!-- Favicon -->
+    <link rel="icon" href="/storage/assets/logo/favicon.svg">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
-<body class="antialiased fs-5" style="background-color: #343a40;">
+<body class="antialiased fs-5" data-bs-theme="dark">
     <div id="app">
-        @include('layouts.navigation.top')
-        <main class="py-4">
+        @php
+            $topnavroute = ['index','profile','/','register','login','password/reset']
+        @endphp
+        @if (in_array(Route::current()->uri, $topnavroute))
+            @include('layouts.navigation.top')
+            <style>
+                .home-section {
+                    left: 0;
+                    width: 100%;
+                }
+            </style>
+        @else
+            @include('components.component.company.sidenav')
+        @endif
+        <main class="home-section py-4 px-4">
             @yield('content')
         </main>
     </div>
+
+    <script>
+
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++) {
+            arrow[i].addEventListener("click", (e)=>{
+                let arrowParent = e.target.parentElement.parentElement;
+                // console.log(arrowParent);
+                arrowParent.classList.toggle("showMenu");
+
+                localStorage.setItem('arrowToggle', arrowParent.classList.contains('showMenu'));
+            });
+        };
+    
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelectorAll(".side-toggle");
+        for (var i = 0; i < sidebarBtn.length; i++) {
+            sidebarBtn[i].addEventListener("click", (e)=>{
+                let btnParent = e.target.parentElement.parentElement;
+                // console.log(btnParent);
+                sidebar.classList.toggle("close");
+
+                localStorage.setItem('sidebarToggle', sidebar.classList.contains('close'));
+            });
+        };
+
+        // Retrieve the toggle states from local storage when the page loads
+        // const arrowToggle = localStorage.getItem('arrowToggle');
+        const sidebarToggle = localStorage.getItem('sidebarToggle');
+
+        // // Apply the toggle states to the respective elements
+        // if (arrowToggle === 'true') {
+        // let arrow = document.querySelectorAll(".arrow");
+        // for (var i = 0; i < arrow.length; i++) {
+        //     arrow[i].addEventListener("click", (e)=>{
+        //         let arrowParent = e.target.parentElement.parentElement;
+        //         arrowParent.classList.add('showMenu');
+                
+        //     });
+        // };
+        // } else {
+        // let arrow = document.querySelectorAll(".arrow");
+        // for (var i = 0; i < arrow.length; i++) {
+        //     arrow[i].addEventListener("click", (e)=>{
+        //         let arrowParent = e.target.parentElement.parentElement;
+        //         arrowParent.classList.remove('showMenu');
+                
+        //     });
+        // };
+        // }
+
+        if (sidebarToggle === 'true') {
+        // Close the sidebar
+        sidebar.classList.add('close');
+        } else {
+        // Open the sidebar
+        sidebar.classList.remove('close');
+        }
+
+    
+    </script>
 </body>
 </html>

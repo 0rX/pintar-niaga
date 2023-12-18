@@ -13,9 +13,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    const Manager = 'manager';
-    const Staff = 'staff';
-
+    protected $primaryKey = 'user_id'; //To override laravel's default $primaryKey = 'id'
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -24,9 +23,15 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'address',
+        'birthdate',
+        'profilepicture',
+        'gender',
         'password',
-        'role',
+        'is_active',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -47,18 +52,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    
-    public function getRedirectRoute() {
-        return match((string)$this->role) {
-            'manager' => RouteServiceProvider::MDASHBOARD,
-            'staff' => RouteServiceProvider::HOME,
-        };
+
+ 
+    public function companies() {
+        return $this->hasMany(Company::class, 'user_id', 'user_id');
     }
-    
-    public function hasAnyRole($role) {
-        if ($role == $this->role) {
+
+    public function isActive() {
+        if ($this->is_active == 'true') {
             return true;
         }
         return false;
+    }
+
+    public function getRedirectRoute() {
+        return RouteServiceProvider::DASHBOARD;
     }
 }

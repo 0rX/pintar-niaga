@@ -4,14 +4,17 @@
 @guest
     @include('layouts.navigation.offcanvaslogin')
 @endguest
-<div class="container cover justify-content-center">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <section class="parallax">
-                <div id="parallax-text1" class="text-danger px-1 fst-italic">{{ __('Vegas') }}</div>
-                <div id="middlebox" class="text-danger fst-italic">{{ __('Finance') }}</div>
-                <div id="parallax-text2" class="text-danger px-1 fst-italic">{{ __('Delta') }}</div>
-            </section>
+
+@section('title')
+    Welcome
+@endsection
+
+<div class="welcome">
+    <div class="content-track d-flex flex-row">
+        <div id="splitter-1" class="splitter">
+            <img class="wc-logo-frame" src="storage/assets/logo/logo-blank-bg-1-frame.svg" alt="">
+            <img class="wc-logo-accent" src="storage/assets/logo/logo-blank-bg-1-accent.svg" alt="">
+            <div class="masking"></div>
         </div>
     </div>
 </div>

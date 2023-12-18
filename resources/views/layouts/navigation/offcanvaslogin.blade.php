@@ -5,7 +5,7 @@
 
 
 <!-- offcanvas Section start-->
-<div class="offcanvas offcanvas-end bg-dark text-secondary d-flex flex-row position-fixed" tabindex="-1" id="offcanvaslogin" aria-labelledby="offcanvasLoginLabel">
+<div data-bs-theme="light" class="offcanvas offcanvas-end bg-dark text-secondary d-flex flex-row position-fixed" tabindex="-1" id="offcanvaslogin" aria-labelledby="offcanvasLoginLabel">
     <div class="pt-4 ps-3" data-bs-theme="dark">
         <button type="button" class="btn-close text-reset fs-6" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -76,7 +76,7 @@
             </div>
             <div class="mx-auto">
     
-                <a href="{{ url('/register') }}" class="btn btn-link text-decoration-none fs-5">Create Account</a>
+                <a href="{{ url('/register') }}" class="btn btn-link text-success text-decoration-none fs-4">Create Account</a>
     
             </div>
         </div>

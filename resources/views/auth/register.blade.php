@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" data-bs-theme="dark">
+
+
+@section('title')
+    User Registration
+@endsection
+
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -13,8 +19,8 @@
                     </div>
                 </div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                <div class="card-body text-secondary">
+                    <form data-bs-theme="light" class="fs-5" method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="row mb-3">
@@ -69,7 +75,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary fs-5">
                                     {{ __('Register') }}
                                 </button>
                             </div>

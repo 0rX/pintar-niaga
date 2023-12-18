@@ -21,10 +21,10 @@ class logincanvas extends Controller
 
         if (Auth::attempt($credentials) && Auth::user()->role == 'staff') {
             // Authentication passed
-            return redirect()->route('staffDashboard');
+            return redirect()->route('staff.dashboard');
         } elseif (Auth::attempt($credentials) && Auth::user()->role == 'manager') {
             // Authentication passed
-            return redirect()->route('managementDashboard');
+            return redirect()->route('management.dashboard');
         } else {
             // Authentication failed
             Session::put('flareOCV', true);

@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" data-bs-theme="dark">
+
+@section('title')
+    Login
+@endsection
+
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -13,9 +18,9 @@
                     </div>
                 </div>
                 
-                <div class="card-body">
+                <div class="card-body text-secondary">
                     <div class="d-flex flex-column">                        
-                        <form method="POST" action="{{ route('login') }}">
+                        <form data-bs-theme="light" method="POST" action="{{ route('login') }}">
                             @csrf
     
                             <div class="row mb-3">

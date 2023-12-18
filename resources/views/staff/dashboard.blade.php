@@ -2,6 +2,10 @@
 
 @section('content')
 
+@section('title')
+    Staff Dashboard
+@endsection
+
 <div class="container" data-bs-theme="gray">
     <div class="row justify-content-center">
         <div class="col-md-8">

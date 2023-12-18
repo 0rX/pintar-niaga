@@ -2,11 +2,15 @@
 
 @section('content')
 
-<div class="container" data-bs-theme="gray">
+@section('title')
+    Company Dashboard ANJING
+@endsection
+
+<div class="container" data-bs-theme="light">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('MANAGEMENT DASHBOARD') }}</div>
+                <div class="card-header">{{ __('COMPANY DASHBOARD') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))

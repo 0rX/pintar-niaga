@@ -20,6 +20,6 @@ class isManager
             return $next($request);
         }
 
-        return redirect()->route('staffDashboard');
+        return redirect()->route('staff.dashboard');
     }
 }
