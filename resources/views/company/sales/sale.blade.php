@@ -276,7 +276,9 @@
 
 <script>
 
-
+var inventory = {!! json_encode($ingredients) !!}
+var startInventory = {!! json_encode($ingredients) !!}
+var products = {!! json_encode($products) !!}
 // console.log(inventory);
 // console.log(products);
 
@@ -291,6 +293,23 @@ document.querySelector('.submit-purchase').addEventListener('click', function() 
     alert('The cart is empty. Please add items before submitting.');
     return;
   }
+  // Get all quantity input fields
+  var quantityInputs = document.querySelectorAll('.quantity-input');
+  // Check if any quantity input field has an error
+  var hasError = Array.from(quantityInputs).some(function(input) {
+    return input.classList.contains('error');
+  });
+
+  if (hasError) {
+    console.log('Form error');
+    event.preventDefault();
+    event.stopPropagation();
+    alert('Some item Quantity exceeds stock');
+    return;
+    // Handle the form error
+    // ...
+  }
+
   submitCartData(cartData); // Replace this with your code to submit the cart data to the server
 });
 
@@ -344,8 +363,6 @@ function submitCartData(cartData) {
 }
 
 $(document).ready(function() {
-    var inventory = {!! json_encode($ingredients) !!}
-    var products = {!! json_encode($products) !!}
     $(document).on('click', '.item-button', function() {
         var item = $(this).data('item');
         var itemPrice = item['sale_price'];
@@ -362,7 +379,7 @@ $(document).ready(function() {
         if (!exists) {
             var newRow = '<tr data-prod-id="'+item['product_id']+'">' +
                 '<td id="prod-'+item['product_id']+'" class="text-start item-name">' + item['name'] + '</td>' +
-                '<td class="d-flex justify-content-center"><input type="number" value="0" name="quantity" id="quantity'+item['product_id']+'" class="quantity form-control my-1 border-1 border-dark" style="width: 120px;" min="0" required></td>' +
+                '<td class="d-flex justify-content-center"><input type="number" value="0" name="quantity" id="quantity'+item['product_id']+'" class="quantity quantity-input form-control my-1 border-1 border-dark" style="width: 120px;" min="0" required></td>' +
                 '<td id="purchase-base'+item['product_id']+'" class="text-center purchase-base" data-base-price="'+ item['sale_price'] +'">' + item['sale_price'].toLocaleString('id-ID', { style: 'currency', currency: 'IDR', currencyDisplay: 'symbol', minimumFractionDigits: 0, maximumFractionDigits: 0 }) + '</td>' +
                 '<td id="purchase-total'+item['product_id']+'" class="text-center purchase-total" data-total-price="0">' + 0 + '</td>' +
                 '<td class="text-center"><button type="button" class="btn btn-danger btn-sm remove-button">Remove</button></td>' +
@@ -381,6 +398,8 @@ $(document).ready(function() {
         var product = products.find(function(item) {
             return item.product_id === productId;
         });
+
+        // console.log(product.previousQuantity);
         
         if (product.previousQuantity == null) {
             product.previousQuantity = 0;
@@ -389,11 +408,11 @@ $(document).ready(function() {
 
         if (product.previousQuantity !== null) {
             var quantityChange = quantity - product.previousQuantity;
-            console.log('Variable quantityChange -> ', quantityChange)
+            // console.log('Variable quantityChange -> ', quantityChange)
             if (quantityChange > 0) {
-                console.log('Quantity increased by:', quantityChange);
+                console.log('Quantity', product.name, 'increased by:', quantityChange);
             } else if (quantityChange < 0) {
-                console.log('Quantity decreased by:', Math.abs(quantityChange));
+                console.log('Quantity', product.name, 'decreased by:', Math.abs(quantityChange));
             } else {
                 console.log('Quantity remains unchanged');
             }
@@ -402,7 +421,7 @@ $(document).ready(function() {
 
         // console.log('product found:', product);
         updateInventory(product, quantityChange);
-        console.log('Updated inventory: ', inventory);
+        // console.log('Updated inventory: ', inventory);
 
         var purchasePrice = $(this).closest('tr').find('.purchase-base').eq(0).data('base-price');
         var purchaseTotal = quantity * purchasePrice;
@@ -420,68 +439,90 @@ $(document).ready(function() {
         // console.log('Table total: '+grandTotal);
     });
     
-    function updateInventory(product, quantityChange) {
-        var recipe = JSON.parse(product.recipe);
-        console.log('recipe: ', recipe);
-    
-        // Iterate over each ingredient in the recipe
-        recipe.forEach(function(ingredient) {
-            var ingredientName = ingredient.name;
-            var ingredientAmount = ingredient.amount;
-    
-            function getItemFromInventory(ingredientName) {
-                for (var i = 0; i < inventory.length; i++) {
-                    if (inventory[i].name === ingredientName) {
-                    return inventory[i];
-                    }
-                }
-                
-                // Return null if the item is not found
-                return null;
-            }
-    
-            var item = getItemFromInventory(ingredientName);
-    
-            // Update the stock of the ingredient based on the quantity change
-            if (quantityChange >= 0) {
-                item['stock'] -= ingredientAmount * quantityChange;
-                if (item['stock'] < 0) {
-                    var elementID = 'quantity'+product['product_id'];
-                    console.log(elementID);
-                    var quantityInput = document.getElementById(elementID); // Change the ID to match the specific form
-                    quantityInput.classList.add('error'); // Add a CSS class to style the input as an error
-                    quantityInput.setCustomValidity('Item stock is insufficient'); // Set a custom validation message
-                    quantityInput.reportValidity();
-                    // alert('quantity exceed the current available ingredients!'); // Add an alert message
-                } else {
-                    var elementID = 'quantity'+product['product_id'];
-                    var quantityInput = document.getElementById(elementID);
-                    quantityInput.classList.remove('error');
-                }
-            } else {
-                item['stock'] += ingredientAmount * Math.abs(quantityChange);
-                if (item['stock'] < 0) {
-                    var elementID = 'quantity'+product['product_id'];
-                    console.log(elementID);
-                    var quantityInput = document.getElementById(elementID); // Change the ID to match the specific form
-                    quantityInput.classList.add('error'); // Add a CSS class to style the input as an error
-                    quantityInput.setCustomValidity('Item stock is insufficient'); // Set a custom validation message
-                    quantityInput.reportValidity();
-                    // alert('quantity exceed the current available ingredients!'); // Add an alert message
-                } else {
-                    var elementID = 'quantity'+product['product_id'];
-                    var quantityInput = document.getElementById(elementID);
-                    quantityInput.classList.remove('error');
-                }
-            }
-        });
-    }
 });
+
+function updateInventory(product, quantityChange) {
+    var recipe = JSON.parse(product.recipe);
+    var recipeCount = Object.keys(recipe).length;
+    var errorPass = 0;
+
+    // Iterate over each ingredient in the recipe
+    recipe.forEach(function(ingredient) {
+        var ingredientName = ingredient.name;
+        var ingredientAmount = ingredient.amount;
+
+        function getItemFromInventory(ingredientName) {
+            for (var i = 0; i < inventory.length; i++) {
+                if (inventory[i].name === ingredientName) {
+                return inventory[i];
+                }
+            }
+            
+            // Return null if the item is not found
+            return null;
+        }
+
+        var item = getItemFromInventory(ingredientName);
+
+        
+        // Update the stock of the ingredient based on the quantity change
+        if (quantityChange >= 0) {
+            item['stock'] -= ingredientAmount * quantityChange;
+            console.log('stock ',item.name,': ',item.stock)
+            if (item['stock'] < 0) {
+                console.log('Error occurs for ->', item.name);
+            } else {
+                errorPass++;
+                console.log('No error occurs');
+            }
+        } else {
+            item['stock'] += ingredientAmount * Math.abs(quantityChange);
+            console.log('stock ',item.name,': ',item.stock)
+            if (item['stock'] < 0) {
+                console.log('Error occurs for ->', item.name);
+            } else {
+                errorPass++;
+                console.log('No error occurs')
+            }
+        }
+    });
+    if (errorPass !== recipeCount) {
+        var elementID = 'quantity'+product['product_id'];
+        var quantityInput = document.getElementById(elementID);
+        quantityInput.classList.add('error')
+        quantityInput.setCustomValidity('Item stock is insufficient');
+        quantityInput.reportValidity();
+    } else {
+        var elementID = 'quantity'+product['product_id'];
+        var quantityInput = document.getElementById(elementID);
+        quantityInput.classList.remove('error');
+        quantityInput.setCustomValidity('');
+        quantityInput.reportValidity();
+    }
+}
 
 $(document).on('click', '.remove-button', function() {
     var index = $(this).closest('tr').index(); // Get the index of the clicked row
     var purchaseTotal = $('.purchase-total').eq(index).data('totalPrice'); // Get the purchase-total value of the corresponding row
-    // console.log(purchaseTotal);
+    var clickedRow = $(this).closest('tr');
+    var quantityInput = clickedRow.find('.quantity');
+    var quantity = quantityInput.val();
+    quantity = -parseInt(quantity);
+    // console.log('Last input quantity of removed row: ', quantity);
+    
+    var productId = clickedRow.data('prod-id')
+    var product = products.find(function(item) {
+        return item.product_id === productId;
+    });
+
+    console.log('product name: ', product.name);
+    console.log('stok kopi blend before: ', inventory[0]['stock']);
+    // console.log('previous quantity: ', product.previousQuantity);
+    updateInventory(product, quantity);
+    // console.log('stok kopi blend after: ', inventory[0]['stock']);
+
+    product.previousQuantity = null;
+
     var grandTotal = $('.grand-total-table').data('total-amount');
     grandTotal -= purchaseTotal;
     $('.grand-total-table').data('totalAmount', grandTotal);
@@ -491,14 +532,30 @@ $(document).on('click', '.remove-button', function() {
     $(this).closest('tr').remove();
 });
 
+function resetProductQuantities() {
+  products.forEach(function(product) {
+    product.previousQuantity = 0;
+  });
+}
+
+function resetInventoryStocks() {
+    for (var i = 0; i < inventory.length; i++) {
+        var startItem = startInventory[i];
+        if (startItem) {
+            inventory[i].stock = startItem.stock;
+        }
+    }
+}
+
 $(document).on('click', '#clear-cart', function() {
     $('.grand-total-table').data('totalAmount', 0);
     $('.grand-total-table').text('Rp 0');
     $('.grand-total-receipt').data('total-receipt', 0);
     $('.grand-total-receipt').text('Rp 0');
     $('#items-cart').empty();
-    var inventory = {!! json_encode($ingredients) !!}
-    console.log(inventory);
+    resetProductQuantities();
+    resetInventoryStocks();
+    // console.log(products[0]['previousQuantity']);
 });
 
 $('#items-cart').on('DOMSubtreeModified', function() {
