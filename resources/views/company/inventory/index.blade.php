@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body card-data-table">
+                <div class="card-body card-data-table custom-scrollbar-2">
                     @if ($ingredients->count() > 0)
                         @php
                             $cp_index += 1;

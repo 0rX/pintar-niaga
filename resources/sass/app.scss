@@ -61,6 +61,28 @@ body::-webkit-scrollbar{
 }
 
 /**
+ * Custom Scrollbar 2 Styling
+ */
+
+.custom-scrollbar-2::-webkit-scrollbar {
+    width: 0.6em;
+}
+
+.custom-scrollbar-2::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.custom-scrollbar-2::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 30px;
+}
+
+.custom-scrollbar-2:hover::-webkit-scrollbar-thumb {
+    background-color: #272424;
+}
+
+
+/**
  * Navbar Styling
  */
 

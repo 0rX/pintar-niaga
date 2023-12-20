@@ -164,7 +164,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body" style="max-height: 800px; overflow: auto; background-color:rgb(36, 40, 48)">
+                    <div class="card-body custom-scrollbar-2" style="max-height: 800px; overflow: auto; background-color:rgb(36, 40, 48)">
                         <div id="items-container" class="row">
                             <style>
                             .invisible-layer {
