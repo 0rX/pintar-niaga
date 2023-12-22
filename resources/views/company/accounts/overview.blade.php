@@ -22,7 +22,7 @@
                                 $transaction_count = $sales->count() + $purchases->count() + $payments->count() + $cashins->count();
                                 $expenses = 0;
                                 $income = 0;
-                                $reconciliation = 0;
+                                $synchronizeDB = 0;
                                 foreach ($purchases as $key => $purchase) {
                                     $expenses += $purchase->total_amount;
                                 }
@@ -35,7 +35,7 @@
                                 foreach ($sales as $key => $sale) {
                                     $income += $sale->total_amount;
                                 }
-                                $reconciliation = $income - $expenses;
+                                $synchronizeDB = $income - $expenses;
                             @endphp
                             <table>
                                 <tr style="height: 45px;">
@@ -59,9 +59,9 @@
                                     <td>Rp. {{ number_format($income) }}</td>
                                 </tr>
                                 <tr style="height: 45px;">
-                                    <td><label for="balance" class="fw-bold">Reconciliation</label></td>
+                                    <td><label for="balance" class="fw-bold">DB Synchronize</label></td>
                                     <td class="text-center fw-bold"> : </td>
-                                    <td>Rp. {{ number_format($reconciliation) }}</td>
+                                    <td>Rp. {{ number_format($synchronizeDB) }}</td>
                                 </tr>
                             </table>
                         </div>

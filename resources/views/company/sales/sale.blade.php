@@ -32,15 +32,17 @@
                 <div class="card" style="height: 500px;">
                     <div class="card-header">
                         <div class="row">
-                            <h3 class="col-md-6 card-title fw-bold text-start align-self-center">
-                                Sale
-                            </h3>
-                            <div class="col-md-6 justify-content-end">
+                            <div class="col-md-5">
+                                <h3 class="card-title fw-bold text-start align-self-center">
+                                    Sale
+                                </h3>
+                            </div>
+                            <div class="col-md-7 justify-content-end">
                                 <div class="row">
                                     <div class="col-md-5 text-end align-self-center">
                                         <label class="fw-bold" for="select">Select Account:</label>
                                     </div>
-                                    <div class="col-md-7 justify-content-start">
+                                    <div class="col-md-7 justify-content-start" data-bs-theme="dark">
                                         <select name="account" id="account" class="form-select me-2 fs-5" required>
                                             @foreach ($accounts as $account)
                                                 <option value="{{ $account->account_id }}">{{ $account->name }}</option>
@@ -233,16 +235,20 @@
                                                         @endphp
                                                         <p class="card-text py-0 my-1"><label for="uses" class="fw-bold">Uses:</label>
                                                             <br>
-                                                            @foreach ($recipes as $recipe)
-                                                                @php
-                                                                    $ingredient = $company->ingredients->firstWhere('name', $recipe['name']);
-                                                                    // dd($ingredient);
-                                                                @endphp
-                                                                {{ $ingredient->name }} <strong class="text-primary">[{{ $recipe['amount'] }} {{ $ingredient->amount_unit }}]</strong>
-                                                                @if (!$loop->last)
-                                                                    <br>
-                                                                @endif
-                                                            @endforeach
+                                                            @if ($recipes != null)
+                                                                @foreach ($recipes as $recipe)
+                                                                    @php
+                                                                        $ingredient = $company->ingredients->firstWhere('name', $recipe['name']);
+                                                                        // dd($ingredient);
+                                                                    @endphp
+                                                                    {{ $ingredient->name }} <strong class="text-primary">[{{ $recipe['amount'] }} {{ $ingredient->amount_unit }}]</strong>
+                                                                    @if (!$loop->last)
+                                                                        <br>
+                                                                    @endif
+                                                                @endforeach
+                                                            @else
+                                                                <p>Ingredient Component Empty</p>
+                                                            @endif
                                                         </p>
                                                         <p class="card-text py-0 my-1">
                                                             <label for="description" class="fw-bold">Description:</label> 
@@ -442,6 +448,7 @@ $(document).ready(function() {
 });
 
 function updateInventory(product, quantityChange) {
+    console.log(product.recipe);
     var recipe = JSON.parse(product.recipe);
     var recipeCount = Object.keys(recipe).length;
     var errorPass = 0;

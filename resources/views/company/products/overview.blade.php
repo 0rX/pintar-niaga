@@ -22,13 +22,13 @@
                                             @endphp
                                             <img src="{{ url($imagepath) }}" alt="{{ $product->name }}" width="100%" class="img-fluid">
                                         </div>
-                                        <div class="col-md-8">
-                                            <h3 class="card-title fw-bold">{{ $product->name }}</h3>
+                                        <div class="col-md-8 mt-3">
+                                            <h3 class="card-title text-center fw-bold mb-4">{{ $product->name }}</h3>
                                             <p class="card-text"><label for="category" class="fw-bold">Category:</label>  {{ $product->category->name }}</p>
                                             <p class="card-text"><label for="sale-price" class="fw-bold">Sale Price:</label>  Rp{{ $product->sale_price }}</p>
                                         </div>
                                     </div>
-                                    <div class="row mx-2 mt-3">
+                                    <div class="row mx-2 mt-2">
                                         <p class="card-text">
                                             <label for="description" class="fw-bold">Description:</label> 
                                             <br>
@@ -58,13 +58,13 @@
                                     <div class="modal fade" id="addModal{{ $product->product_id }}" tabindex="-1"
                                         aria-hidden="true">
                                         <div class="modal-dialog">
-                                            <div class="modal-content">
+                                            <div class="modal-content" style="width: 600px;">
                                                 <div class="modal-header">
                                                     <h1 class="modal-title fw-bold fs-5 text-dark">Edit {{ $product->name }}</h1>
                                                     <button type="button" class="btn btn-danger px-1 py-0 my-0" data-bs-dismiss="modal"
                                                         aria-label="Close"><i class='bx bx-x fs-3 pt-1'></i></button>
                                                 </div>
-                                                <div class="modal-body">
+                                                <div class="modal-body mx-4">
                                                     <form enctype="multipart/form-data" action="{{ route('products-index.update', $product->product_id) }}"
                                                         method="post">
                                                         @csrf
@@ -73,7 +73,7 @@
                                                             <label for="name" class="ms-2 fw-bold">Product Name</label>
                                                             <input value="{{ $product->name }}" type="text" name="name" id="name" class="form-control mb-3 fs-5" required>
                                                             <label for="category" class="ms-2 fw-bold">Category</label>
-                                                            <select name="category" id="category" class="form-select mb-3 fs-5" required>
+                                                            <select name="category_id" id="category_id" class="form-select mb-3 fs-5" required>
                                                                 @foreach ($categories as $category)
                                                                     <option value="{{ $category->category_id }}"
                                                                         {{ $category->category_id == $product->category_id ? 'selected' : '' }}>
@@ -82,16 +82,73 @@
                                                                 @endforeach
                                                             </select>
                                                             <div id="ingredients" class="my-4 ms-3">
-                                                                <label class="ms-2 fw-bold">Ingredients:</label>
-                                                                <button type="button" id="add-ingredient">Add Ingredient</button>
                                                                 <div class="ingredient">
-                                                                    <select name="ingredients[0][name]">
-                                                                        @foreach($ingredients as $ingredient)
-                                                                            <option value="{{ $ingredient->name }}">{{ $ingredient->name }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                    <input type="number" name="ingredients[0][amount]" placeholder="Amount">
-                                                                    {{-- <button type="button" class="remove-ingredient">Remove</button> --}}
+                                                                    <div class="table">
+                                                                        <table class="table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th class="text-start" style="width: 225px;">Ingredient</th>
+                                                                                    <th class="text-center" style="width: 172px;">Amount</th>
+                                                                                    <th class="text-center">
+                                                                                        <i class="bx bx-trash align-self-center mx-2"></i>
+                                                                                    </th>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th colspan="3" class="text-center">
+                                                                                        <button type="button" id="add-ingredient" class="btn btn-success mx-2 px-5">
+                                                                                            <i class="bx bx-plus"></i> Add Ingredient
+                                                                                        </button>
+                                                                                    </th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody id="tbody">
+                                                                                @php
+                                                                                    $recipe = json_decode($product->recipe, true);
+                                                                                @endphp
+                                                                                @if ($recipe == null)
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <select class="mt-2 py-1" name="ingredients[0][name]">
+                                                                                                @foreach($ingredients as $ingredient)
+                                                                                                    <option value="{{ $ingredient->name }}">{{ $ingredient->name }}</option>
+                                                                                                @endforeach
+                                                                                            </select>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input class="mt-2" type="number" name="ingredients[0][amount]" placeholder="Amount">
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <button type="button" class="remove-ingredient btn btn-lg btn-danger">
+                                                                                                <i class="bx bx-trash fs-5"></i>
+                                                                                            </button>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                @else
+                                                                                    @foreach($recipe as $index => $item)
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <select class="mt-2 py-1" name="ingredients[{{ $index }}][name]">
+                                                                                                    @foreach($ingredients as $ingredient)
+                                                                                                        <option value="{{ $ingredient->name }}" {{ $ingredient->name == $item['name'] ? 'selected' : '' }}>
+                                                                                                            {{ $ingredient->name }}
+                                                                                                        </option>
+                                                                                                    @endforeach
+                                                                                                </select>
+                                                                                            </td>
+                                                                                            <td >
+                                                                                                <input class="mt-2" type="number" name="ingredients[{{ $index }}][amount]" placeholder="Amount" value="{{ $item['amount'] }}">
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <button type="button" class="remove-ingredient btn btn-lg btn-danger">
+                                                                                                    <i class="bx bx-trash fs-5"></i>
+                                                                                                </button>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    @endforeach
+                                                                                @endif
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <label for="sale_price" class="ms-2 fw-bold">Sale Price</label>
@@ -123,8 +180,9 @@
                                     <p class="card-text">
                                         @php
                                             $recipe = json_decode($product->recipe, true);
-                                            //dd($recipe);
                                         @endphp
+                                        @if ($recipe != null)
+                                            
                                         @foreach($recipe as $ingredient)
                                             <div class="card my-1 text-light" style="background: #1b192d">
                                                 @php
@@ -137,6 +195,9 @@
                                                 </div>
                                             </div>
                                         @endforeach
+                                        @else
+                                            <p class="card-text text-center fst-italic">No ingredients yet . . .</p>
+                                        @endif
                                     </p>
                                 </div>
                                 <div class="card-footer"></div>
@@ -151,58 +212,43 @@
 
 <script>
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const addIngredientButton = document.getElementById('add-ingredient');
-      const ingredientsContainer = document.getElementById('ingredients');
-      let ingredientCounter = 1;
-    
-      function cloneOptions(sourceSelect, targetSelect) {
-        const options = sourceSelect.querySelectorAll('option');
-        options.forEach(function(option) {
-          const clonedOption = option.cloneNode(true);
-          clonedOption.selected = option.selected;
-          targetSelect.appendChild(clonedOption);
-        });
-      }
-    
-      addIngredientButton.addEventListener('click', function() {
-        const ingredientDiv = document.createElement('div');
-        ingredientDiv.classList.add('ingredient');
-    
-        const ingredientSelect = document.createElement('select');
-        ingredientSelect.name = `ingredients[${ingredientCounter}][name]`;
-    
-        const firstSelect = document.querySelector('#ingredients select[name^="ingredients"]');
-        cloneOptions(firstSelect, ingredientSelect);
-    
-        const amountInput = document.createElement('input');
-        amountInput.type = 'number';
-        amountInput.name = `ingredients[${ingredientCounter}][amount]`;
-        amountInput.placeholder = 'Amount';
-    
-        const removeButton = document.createElement('button');
-        removeButton.type = 'button';
-        removeButton.classList.add('remove-ingredient');
-        removeButton.textContent = 'Remove';
-    
-        ingredientDiv.appendChild(ingredientSelect);
-        ingredientDiv.appendChild(amountInput);
-        ingredientDiv.appendChild(removeButton);
-    
-        ingredientsContainer.appendChild(ingredientDiv);
-    
-        ingredientCounter++;
-      });
-    
-      ingredientsContainer.addEventListener('click', function(event) {
-        if (event.target.classList.contains('remove-ingredient')) {
-          const ingredientDiv = event.target.closest('.ingredient');
-          ingredientDiv.remove();
-        }
-      });
-    
-    });
-    
-    </script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addIngredientButton = document.getElementById('add-ingredient');
+  const ingredientsContainer = document.getElementById('tbody');
+
+  addIngredientButton.addEventListener('click', function() {
+    const ingredientRow = document.createElement('tr');
+    ingredientRow.innerHTML = `
+      <td>
+        <select class="mt-2 py-1" name="ingredients[${ingredientsContainer.childElementCount}][name]">
+          @foreach($ingredients as $ingredient)
+          <option value="{{ $ingredient->name }}">{{ $ingredient->name }}</option>
+          @endforeach
+        </select>
+      </td>
+      <td>
+        <input class="mt-2" type="number" name="ingredients[${ingredientsContainer.childElementCount}][amount]" placeholder="Amount">
+      </td>
+      <td>
+        <button type="button" class="remove-ingredient btn btn-lg btn-danger">
+          <i class="bx bx-trash fs-5"></i>
+        </button>
+      </td>
+    `;
+
+    ingredientsContainer.appendChild(ingredientRow);
+  });
+
+  ingredientsContainer.addEventListener('click', function(event) {
+    if (event.target.classList.contains('remove-ingredient')) {
+      const ingredientRow = event.target.closest('tr');
+      ingredientRow.remove();
+    }
+  });
+
+});
+
+
+</script>
 
 @endsection

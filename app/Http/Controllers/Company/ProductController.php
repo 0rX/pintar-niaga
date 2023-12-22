@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProductController extends Controller
 {
@@ -65,6 +66,7 @@ class ProductController extends Controller
         if($request->hasFile('image')) {
             $file = $request->file('image');
             $random_name = rand(100000, 999999) . $file->getClientOriginalName();
+            $random_name = Hash::make($random_name) . "." . $file->getClientOriginalExtension();
             $data['image'] = $random_name;
             $filename = $random_name;
             $file->move(public_path('storage/images'), $filename);
@@ -77,11 +79,13 @@ class ProductController extends Controller
 
     public function update(Request $request, $product_id) {
         $data = $request->all();
+        // dd($data);
         $ingredientsJson = json_encode($request->ingredients);
         $data['recipe'] = $ingredientsJson;
         if($request->hasFile('image')) {
             $file = $request->file('image');
             $random_name = rand(100000, 999999) . $file->getClientOriginalName();
+            $random_name = Hash::make($random_name) . "." . $file->getClientOriginalExtension();
             $data['image'] = $random_name;
             $filename = $random_name;
             $file->move(public_path('storage/images'), $filename);

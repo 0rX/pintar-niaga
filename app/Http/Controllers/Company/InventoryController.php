@@ -63,6 +63,7 @@ class InventoryController extends Controller
         if($request->hasFile('image')) {
             $file = $request->file('image');
             $random_name = rand(100000, 999999) . $file->getClientOriginalName();
+            $random_name = Hash::make($random_name) . "." . $file->getClientOriginalExtension();
             $data['image'] = $random_name;
             $filename = $random_name;
             $file = $file->move(public_path('storage/images'), $filename);
@@ -76,6 +77,7 @@ class InventoryController extends Controller
         if($request->hasFile('image')) {
             $file = $request->file('image');
             $random_name = rand(100000, 999999) . $file->getClientOriginalName();
+            $random_name = Hash::make($random_name) . "." . $file->getClientOriginalExtension();
             $data['image'] = $random_name;
             $filename = $random_name;
             $file = $file->move(public_path('storage/images'), $filename);

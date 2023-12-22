@@ -10,16 +10,26 @@
     <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
+    {{-- <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/fontawesome-free/css/all.min.css">
+    {{-- <link rel="stylesheet" href="https://adminlte.io/themes/v3/dist/css/adminlte.min.css?v=3.2.0"> --}}
+    
+    
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
+    
     <!-- Favicon -->
     <link rel="icon" href="/storage/assets/logo/favicon.svg">
-
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- <script src="https://adminlte.io/themes/v3/plugins/jquery/jquery.min.js"></script> --}}
+    {{-- <script src="https://adminlte.io/themes/v3/plugins/bootstrap/js/bootstrap.bundle.min.js"></script> --}}
+    <script src="{{ url("storage/scripts/Chart.min.js") }}"></script>
+    {{-- <script src="https://adminlte.io/themes/v3/dist/js/adminlte.min.js?v=3.2.0"></script> --}}
+    <script src="{{ url("storage/scripts/adminlte.min.js") }}"></script>
+    {{-- <script src="{{ url("storage/scripts/demo.js") }}"></script> --}}
 
 </head>
 <body class="antialiased fs-5" data-bs-theme="dark">
@@ -56,7 +66,7 @@
             });
         };
     
-        let sidebar = document.querySelector(".sidebar");
+        let sidebar = document.querySelector(".sidebar-nav");
         let sidebarBtn = document.querySelectorAll(".side-toggle");
         for (var i = 0; i < sidebarBtn.length; i++) {
             sidebarBtn[i].addEventListener("click", (e)=>{

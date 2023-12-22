@@ -1,4 +1,4 @@
-<div class="sidebar">
+<div class="sidebar-nav custom-scrollbar">
     <div class="logo-details">
         <i class='bx bxs-color side-toggle'></i>
         <span class="logo_name fst-italic">{{ __('Pintar Niaga') }}</span>
@@ -23,12 +23,12 @@
                 ##dd($cp_dashboard);
             @endphp
             <a href="{{ $cp_dashboard }}">
-                <i class="bx bx-grid-alt"></i>
+                <i class='bx bx-pie-chart-alt-2'></i>
                 <span class="link_name">Dashboard</span>
             </a>
             <ul class="sub-menu blank">
                 <li>
-                    <a class="link_name" href="{{ $cp_dashboard }}">Company Dashboard</a>
+                    <a class="link_name" href="{{ $cp_dashboard }}">Dashboard</a>
                 </li>
             </ul>
         </li>
@@ -50,9 +50,6 @@
                 <li>
                     <a href="{{ $tc_payment }}">Payment</a>
                 </li>
-                <li>
-                    <a href="#">Reconciliation</a>
-                </li>
             </ul>
         </li>
         <li>
@@ -67,67 +64,48 @@
             </ul>
         </li>
         <li>
-            <div class="icon-link">
-                <a href="{{ $pd_dashboard }}">
-                    <i class="bx bx-basket"></i>
-                    <span class="link_name">Products</span>
-                </a>
-                <i class="bx bxs-chevron-down arrow"></i>
-            </div>
-            <ul class="sub-menu">
-                <li>
-                    <a class="link_name" href="{{ $pd_dashboard }}">Products</a>
-                </li>
-                <li>
-                    <a href="{{ $ig_dashboard }}">Inventory</a>
-                </li>
-                <li>
-                    <a href="#">Move Stock</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <div class="icon-link">
-                <a href="{{ $pc_dashboard }}">
-                    <i class='bx bx-package' ></i>
-                    <span class="link_name">Purchase</span>
-                </a>
-                <i class="bx bxs-chevron-down arrow"></i>
-            </div>
-            <ul class="sub-menu">
-                <li>
-                    <a class="link_name" href="{{ $pc_dashboard }}">Purchase</a>
-                </li>
-                <li>
-                    <a href="#">Purchase history</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <div class="icon-link">
-                <a href="{{ $sl_dashboard }}">
-                    <i class='bx bxs-cart' ></i>
-                    <span class="link_name">Sale</span>
-                </a>
-                <i class="bx bxs-chevron-down arrow"></i>
-            </div>
-            <ul class="sub-menu">
-                <li>
-                    <a class="link_name" href="{{ $sl_dashboard }}">Sale</a>
-                </li>
-                <li>
-                    <a href="#">Sale History</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-                <i class="bx bx-cog"></i>
-                <span class="link_name">Settings</span>
+            <a href="{{ $ig_dashboard }}">
+                <i class='bx bx-cabinet'></i>
+                <span class="link_name">
+                    Inventory
+                </span>
             </a>
             <ul class="sub-menu blank">
                 <li>
-                    <a class="link_name" href="#">Settings</a>
+                    <a class="link_name" href="{{ $ig_dashboard }}">Inventory</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ $pd_dashboard }}">
+                <i class="bx bx-basket"></i>
+                <span class="link_name">Products</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li>
+                    <a class="link_name" href="{{ $pd_dashboard }}">Products</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ $pc_dashboard }}">
+                <i class='bx bx-package' ></i>
+                <span class="link_name">Purchase</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li>
+                    <a class="link_name" href="{{ $pc_dashboard }}">Purchase</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ $sl_dashboard }}">
+                <i class='bx bxs-cart' ></i>
+                <span class="link_name">Sale</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li>
+                    <a class="link_name" href="{{ $sl_dashboard }}">Sale</a>
                 </li>
             </ul>
         </li>
