@@ -183,6 +183,9 @@ for (var day in dailySums) {
 var last7Days = labels.slice(-7);
 var last7IncomesData = incomesData.slice(-7);
 var last7ExpensesData = expensesData.slice(-7);
+last7Days.unshift('0');
+last7IncomesData.unshift(0);
+last7ExpensesData.unshift(0);
 
 var chart = new Chart(canvas, {
     type: 'line',

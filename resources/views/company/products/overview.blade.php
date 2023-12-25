@@ -58,7 +58,7 @@
                                     <div class="modal fade" id="addModal{{ $product->product_id }}" tabindex="-1"
                                         aria-hidden="true">
                                         <div class="modal-dialog">
-                                            <div class="modal-content" style="width: 600px;">
+                                            <div class="modal-content" style="width: 720px;">
                                                 <div class="modal-header">
                                                     <h1 class="modal-title fw-bold fs-5 text-dark">Edit {{ $product->name }}</h1>
                                                     <button type="button" class="btn btn-danger px-1 py-0 my-0" data-bs-dismiss="modal"
@@ -87,8 +87,8 @@
                                                                         <table class="table">
                                                                             <thead>
                                                                                 <tr>
-                                                                                    <th class="text-start" style="width: 225px;">Ingredient</th>
-                                                                                    <th class="text-center" style="width: 172px;">Amount</th>
+                                                                                    <th class="text-start" style="width: 400px;">Ingredient</th>
+                                                                                    <th class="text-center">Amount</th>
                                                                                     <th class="text-center">
                                                                                         <i class="bx bx-trash align-self-center mx-2"></i>
                                                                                     </th>
@@ -110,7 +110,7 @@
                                                                                         <td>
                                                                                             <select class="mt-2 py-1" name="ingredients[0][name]">
                                                                                                 @foreach($ingredients as $ingredient)
-                                                                                                    <option value="{{ $ingredient->name }}">{{ $ingredient->name }}</option>
+                                                                                                    <option value="{{ $ingredient->name }}">{{ Str::limit($ingredient->name, 30) }}</option>
                                                                                                 @endforeach
                                                                                             </select>
                                                                                         </td>
@@ -130,7 +130,7 @@
                                                                                                 <select class="mt-2 py-1" name="ingredients[{{ $index }}][name]">
                                                                                                     @foreach($ingredients as $ingredient)
                                                                                                         <option value="{{ $ingredient->name }}" {{ $ingredient->name == $item['name'] ? 'selected' : '' }}>
-                                                                                                            {{ $ingredient->name }}
+                                                                                                            {{ Str::limit($ingredient->name, 30) }}
                                                                                                         </option>
                                                                                                     @endforeach
                                                                                                 </select>

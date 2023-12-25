@@ -6,6 +6,7 @@ use App\Models\Ingredient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class InventoryController extends Controller
 {
@@ -63,7 +64,7 @@ class InventoryController extends Controller
         if($request->hasFile('image')) {
             $file = $request->file('image');
             $random_name = rand(100000, 999999) . $file->getClientOriginalName();
-            $random_name = Hash::make($random_name) . "." . $file->getClientOriginalExtension();
+            $random_name = preg_replace('/[^A-Za-z0-9]/', '', Hash::make($random_name)) . "." . $file->getClientOriginalExtension();
             $data['image'] = $random_name;
             $filename = $random_name;
             $file = $file->move(public_path('storage/images'), $filename);
@@ -77,9 +78,10 @@ class InventoryController extends Controller
         if($request->hasFile('image')) {
             $file = $request->file('image');
             $random_name = rand(100000, 999999) . $file->getClientOriginalName();
-            $random_name = Hash::make($random_name) . "." . $file->getClientOriginalExtension();
+            $random_name = preg_replace('/[^A-Za-z0-9]/', '', Hash::make($random_name)) . "." . $file->getClientOriginalExtension();
             $data['image'] = $random_name;
             $filename = $random_name;
+            // dd($filename);
             $file = $file->move(public_path('storage/images'), $filename);
         };
         Ingredient::findOrFail($ingredient_id)->update($data);

@@ -159,7 +159,7 @@
                     </table>
                 </div>
             @else
-                <p class="mb-0 text-danger text-center">You have nothing</p>
+                <p class="my-4 text-danger text-center fst-italic fs-4 fw-bold">No Data</p>
             @endif
         </div>
     </div>

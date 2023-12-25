@@ -22,7 +22,7 @@
                         <li class="nav-item">
                             <a class="nav-link left-menu py-auto mt-1 {{ (request()->is('index')) ? 'active' : '' }}" href="{{ url('/index') }}">Dashboard</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link left-menu py-auto mt-1 {{ (request()->is('management/employee*')) ? 'active' : '' }}" href="{{ url('/management/employee') }}">Employee</a>
                         </li>
                         <li class="nav-item">
@@ -30,12 +30,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link left-menu py-auto mt-1 {{ (request()->is('management/task*')) ? 'active' : '' }}" href="{{ url('/management') }}">Task</a>
-                        </li>
+                        </li> --}}
                     </ul>
             @else
                 <ul class="navbar-nav me-auto fst-italic fw-bolder fs-4">
                     <li class="nav-item">
-                        <a class="nav-link left-menu py-auto mt-1" href="{{ url('/') }}">About</a>
+                        {{-- <a class="nav-link left-menu py-auto mt-1" href="{{ url('/') }}">About</a> --}}
                     </li>
                 </ul>
             @endauth
@@ -68,9 +68,9 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a href="{{ route('profile') }}" class="dropdown-item">
+                            {{-- <a href="{{ route('profile') }}" class="dropdown-item">
                                 {{ __('Profile') }}
-                            </a>
+                            </a> --}}
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">

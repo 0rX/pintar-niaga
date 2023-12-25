@@ -60,6 +60,7 @@ class CompanyDashboard extends Controller
             }
         }
         // dd($amountSoldByCategory);
+        
         return view('company.dashboard.dashboard', [
             'title' => 'Company Dashboard',
             'user' => $user,

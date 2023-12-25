@@ -88,7 +88,7 @@
                                                 <img src="{{ url($imagepath) }}" alt="{{ $ingredient->name }}" width="90px" class="img-fluid">
                                             </td>
                                             @php
-                                                $ig_index = $ingredient->pluck('name')->search($ingredient->name) + 1;
+                                                $ig_index = $ingredients->pluck('name')->search($ingredient->name) + 1;
                                             @endphp
                                             <td style="max-width: 100px;">
                                                 <a href="/manage/{{ $cp_index }}/inventory/{{ $ig_index }}/">

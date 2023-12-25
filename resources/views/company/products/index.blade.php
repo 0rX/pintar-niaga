@@ -24,13 +24,13 @@
                 </div>
                 <div class="modal fade" id="addAccModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content">
+                        <div class="modal-content" style="width: 720px;">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5">Create Product</h1>
+                                <h1 class="modal-title fw-bold fs-5 text-dark">Create Product</h1>
                                 <button type="button" class="btn btn-danger px-1 py-0 my-0" data-bs-dismiss="modal"
                                     aria-label="Close"><i class='bx bx-x fs-3 pt-1'></i></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body mx-4">
                                 <form enctype="multipart/form-data" action="{{ route('products-index.store') }}" method="post">
                                     @csrf
                                     <div class="mb-5">
@@ -44,17 +44,47 @@
                                                 <option value="{{ $category->category_id }}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
-                                        <div id="ingredients">
-                                            <label>Ingredients:</label>
-                                            <button type="button" id="add-ingredient" class="">Add Ingredient</button>
+                                        <div id="ingredients" class="my-4 ms-3">
                                             <div class="ingredient">
-                                                <select name="ingredients[0][name]">
-                                                    @foreach($ingredients as $ingredient)
-                                                        <option value="{{ $ingredient->name }}">{{ $ingredient->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <input type="number" name="ingredients[0][amount]" placeholder="Amount">
-                                                {{-- <button type="button" class="remove-ingredient">Remove</button> --}}
+                                                <div class="table">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-start" style="width: 400px;">Ingredient</th>
+                                                                <th class="text-center">Amount</th>
+                                                                <th class="text-center">
+                                                                    <i class="bx bx-trash align-self-center mx-2"></i>
+                                                                </th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th colspan="3" class="text-center">
+                                                                    <button type="button" id="add-ingredient" class="btn btn-success mx-2 px-5">
+                                                                        <i class="bx bx-plus"></i> Add Ingredient
+                                                                    </button>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tbody">
+                                                            <tr>
+                                                                <td>
+                                                                    <select class="mt-2 py-1" name="ingredients[0][name]">
+                                                                        @foreach($ingredients as $ingredient)
+                                                                            <option value="{{ $ingredient->name }}">{{ Str::limit($ingredient->name, 30) }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="mt-2" type="number" name="ingredients[0][amount]" placeholder="Amount">
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button" class="remove-ingredient btn btn-lg btn-danger">
+                                                                        <i class="bx bx-trash fs-5"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                         <label for="sale_price" class="ms-2">Sale Price</label>
@@ -87,8 +117,8 @@
                                         <th class="text-start" scope="col">Picture</th>
                                         <th class="text-start" scope="col">Name</th>
                                         <th class="text-center" scope="col">Category</th>
-                                        <th class="text-center" scope="col">Price</th>
-                                        <th class="text-start" scope="col">Description</th>
+                                        <th class="text-start" scope="col">Price</th>
+                                        <th class="text-center" scope="col">Description</th>
                                         <th class="text-center" scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -110,8 +140,8 @@
                                                     {{ $product->name }}
                                                 </a>
                                             </td>
-                                            <td style="max-width: 100px;">{{ $product->category->name }}</td>
-                                            <td style="max-width: 100px;">{{ $product->sale_price }}</td>
+                                            <td class="text-center" style="max-width: 100px;">{{ $product->category->name }}</td>
+                                            <td style="max-width: 100px;">Rp {{ number_format($product->sale_price) }}</td>
                                             <td style="max-width: 150px;">{{ $product->description }}</td>
                                             <td>
                                                 <div class="d-flex align-items-center justify-content-center gap-2">
@@ -146,52 +176,36 @@
 <script>
 
 document.addEventListener('DOMContentLoaded', function() {
-  const addIngredientButton = document.getElementById('add-ingredient');
-  const ingredientsContainer = document.getElementById('ingredients');
-  let ingredientCounter = 1;
-
-  function cloneOptions(sourceSelect, targetSelect) {
-    const options = sourceSelect.querySelectorAll('option');
-    options.forEach(function(option) {
-      const clonedOption = option.cloneNode(true);
-      clonedOption.selected = option.selected;
-      targetSelect.appendChild(clonedOption);
-    });
-  }
+    const addIngredientButton = document.getElementById('add-ingredient');
+  const ingredientsContainer = document.getElementById('tbody');
 
   addIngredientButton.addEventListener('click', function() {
-    const ingredientDiv = document.createElement('div');
-    ingredientDiv.classList.add('ingredient');
+    const ingredientRow = document.createElement('tr');
+    ingredientRow.innerHTML = `
+      <td>
+        <select class="mt-2 py-1" name="ingredients[${ingredientsContainer.childElementCount}][name]">
+          @foreach($ingredients as $ingredient)
+          <option value="{{ $ingredient->name }}">{{ $ingredient->name }}</option>
+          @endforeach
+        </select>
+      </td>
+      <td>
+        <input class="mt-2" type="number" name="ingredients[${ingredientsContainer.childElementCount}][amount]" placeholder="Amount">
+      </td>
+      <td>
+        <button type="button" class="remove-ingredient btn btn-lg btn-danger">
+          <i class="bx bx-trash fs-5"></i>
+        </button>
+      </td>
+    `;
 
-    const ingredientSelect = document.createElement('select');
-    ingredientSelect.name = `ingredients[${ingredientCounter}][name]`;
-
-    const firstSelect = document.querySelector('#ingredients select[name^="ingredients"]');
-    cloneOptions(firstSelect, ingredientSelect);
-
-    const amountInput = document.createElement('input');
-    amountInput.type = 'number';
-    amountInput.name = `ingredients[${ingredientCounter}][amount]`;
-    amountInput.placeholder = 'Amount';
-
-    const removeButton = document.createElement('button');
-    removeButton.type = 'button';
-    removeButton.classList.add('remove-ingredient');
-    removeButton.textContent = 'Remove';
-
-    ingredientDiv.appendChild(ingredientSelect);
-    ingredientDiv.appendChild(amountInput);
-    ingredientDiv.appendChild(removeButton);
-
-    ingredientsContainer.appendChild(ingredientDiv);
-
-    ingredientCounter++;
+    ingredientsContainer.appendChild(ingredientRow);
   });
 
   ingredientsContainer.addEventListener('click', function(event) {
     if (event.target.classList.contains('remove-ingredient')) {
-      const ingredientDiv = event.target.closest('.ingredient');
-      ingredientDiv.remove();
+      const ingredientRow = event.target.closest('tr');
+      ingredientRow.remove();
     }
   });
 

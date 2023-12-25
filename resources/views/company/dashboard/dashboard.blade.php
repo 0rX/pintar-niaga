@@ -106,81 +106,93 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
-  $(function() {
+$(function() {
     /* ChartJS
     * -------
     * Here we will create a few charts using ChartJS
     */
-   
-    var amountSoldByProduct = {!! json_encode($amountSoldByProduct) !!}
     
-		//--------------
-		//- AREA CHART -
-		//--------------
-    
-		// Get context with jQuery - using jQuery's .get() method.
-		var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+	//--------------
+	//- AREA CHART -
+	//--------------
+
+	// Get context with jQuery - using jQuery's .get() method.
+	var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
     
     var sales = {!! $sales !!}
 
-    var salesDates = sales.map(function(sale) {
-      var formattedDate = new Date(sale.created_at).toLocaleDateString()
-      return formattedDate
-    });
+	var salesByDate = {};
 
-    var salesAmounts = sales.map(function(sale) {
-      return sale.total_amount
-    });
+	sales.forEach(function(sale) {
+		var date = new Date(sale.created_at).toLocaleDateString();
+		if (salesByDate[date]) {
+			salesByDate[date] += sale.total_amount;
+		} else {
+			salesByDate[date] = sale.total_amount;
+		}
+	});
 
+	// console.log(salesByDate)
+
+    var salesDates = []
+
+	Object.keys(salesByDate).forEach(function(date) {
+	  salesDates.push(date)
+	})
+
+    var salesAmounts = []
+	Object.keys(salesByDate).forEach(function(date){
+		salesAmounts.push(salesByDate[date])
+	})
     // console.log(sales)
     
-		var areaChartData = {
-			labels: salesDates,
-			datasets: [{
-					label: 'Daily Sales',
-					backgroundColor: 'rgba(60,141,150,0.3)',
-					borderColor: 'rgba(60,141,150,0.8)',
-					pointRadius: 3,
-					pointColor: '#3b8bba',
-					pointStrokeColor: 'rgba(60,141,188,1)',
-					pointHighlightFill: '#fff',
-					pointHighlightStroke: 'rgba(60,141,188,1)',
-					data: salesAmounts
-				},
-			]
-		}
-
-		var areaChartOptions = {
-			maintainAspectRatio: false,
-			responsive: true,
-			legend: {
-				display: false
+	var areaChartData = {
+		labels: salesDates,
+		datasets: [{
+				label: 'Daily Sales',
+				backgroundColor: 'rgba(156, 254, 167, 0.3)',
+				borderColor: 'rgba(60,141,150,0.8)',
+				pointRadius: 3,
+				pointColor: '#3b8bba',
+				pointStrokeColor: 'rgba(60,141,188,1)',
+				pointHighlightFill: '#fff',
+				pointHighlightStroke: 'rgba(60,141,188,1)',
+				data: salesAmounts
 			},
-			scales: {
-				xAxes: [{
-					gridLines: {
-						display: true,
-					}
-				}],
-				yAxes: [{
-					gridLines: {
-						display: true
-					}
-				}]
-			}
+		]
+	}
+
+	var areaChartOptions = {
+		maintainAspectRatio: false,
+		responsive: true,
+		legend: {
+			display: false
+		},
+		scales: {
+			xAxes: [{
+				gridLines: {
+					display: true,
+				}
+			}],
+			yAxes: [{
+				gridLines: {
+					display: true
+				}
+			}]
 		}
+	}
 
-		// This will get the first returned node in the jQuery collection.
-		new Chart(areaChartCanvas, {
-			type: 'line',
-			data: areaChartData,
-			options: areaChartOptions
-		})
+	// This will get the first returned node in the jQuery collection.
+	new Chart(areaChartCanvas, {
+		type: 'line',
+		data: areaChartData,
+		options: areaChartOptions
+	})
 
-		//-------------
-		//- BAR CHART -
-		//-------------
-		var barChartCanvas = $('#barChart').get(0).getContext('2d')
+	//-------------
+	//- BAR CHART -
+	//-------------
+	var barChartCanvas = $('#barChart').get(0).getContext('2d')
 
     var amountSoldByCategory = {!! json_encode($amountSoldByCategory) !!}
     // console.log(amountSoldByCategory)
@@ -193,75 +205,95 @@
       return item.total_sold;
     });
 
+	var randomColors = categoryLabels.map(function() {
+		return '#' + Math.floor(Math.random() * 16777215).toString(16);
+	});
+
     currentMonth = '{!! now()->format('F') !!}'
 
-		var barChartData = {
-      labels: categoryLabels,
-      datasets: [{
-        label: currentMonth.concat(' Sale'),
-        backgroundColor: 'rgba(60,141,150,0.3)',
-        borderColor: 'rgba(60,141,150,0.8)',
-        borderWidth: 1,
-        data: totalSalesAmounts
-      }
-    ]
-    };
+	var barChartData = {
+		labels: categoryLabels,
+		datasets: [{
+			label: currentMonth.concat(' Sale'),
+			backgroundColor: 'rgba(60,141,150,0.3)',
+			borderColor: 'rgba(60,141,150,0.8)',
+			borderWidth: 1,
+			data: totalSalesAmounts,
+			backgroundColor: randomColors
+		}]
+	};
 
 
-		var barChartOptions = {
-      responsive: true,
-			legend: {
-				display: false
-			},
-      maintainAspectRatio: false,
-      datasetFill: false,
-      scales: {
-        xAxes: [{
-          stacked: true,
-        }],
-        yAxes: [{
-          stacked: true
-        }]
-      }
-    }
-
-		new Chart(barChartCanvas, {
-			type: 'bar',
-			data: barChartData,
-			options: barChartOptions
-		})
-
-		//-------------
-		//- DONUT CHART -
-		//-------------
-		// Get context with jQuery - using jQuery's .get() method.
-		var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-		var donutData = {
-			labels: [
-				'Chrome',
-				'IE',
-				'FireFox',
-				'Safari',
-				'Opera',
-				'Navigator',
-			],
-			datasets: [{
-				data: [700, 500, 400, 600, 300, 100],
-				backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+	var barChartOptions = {
+		responsive: true,
+				legend: {
+					display: false
+				},
+		maintainAspectRatio: false,
+		datasetFill: false,
+		scales: {
+			xAxes: [{
+			stacked: true,
+			}],
+			yAxes: [{
+			stacked: true
 			}]
 		}
-		var donutOptions = {
-			maintainAspectRatio: false,
-			responsive: true,
-		}
-		//Create pie or douhnut chart
-		// You can switch between pie and douhnut using the method below.
-		new Chart(donutChartCanvas, {
-			type: 'doughnut',
-			data: donutData,
-			options: donutOptions
-		})
+    }
 
+	new Chart(barChartCanvas, {
+		type: 'bar',
+		data: barChartData,
+		options: barChartOptions
 	})
+
+	//-------------
+	//- DONUT CHART -
+	//-------------
+	// Get context with jQuery - using jQuery's .get() method.
+
+	var amountSoldByProduct = {!! json_encode($amountSoldByProduct) !!}
+
+	var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+
+	productLabels = []
+	totalProductSales = []
+
+	// console.log(amountSoldByProduct)
+
+	Object.keys(amountSoldByProduct).forEach(function(item){
+		name = amountSoldByProduct[item].name
+		productLabels.push(name)
+	})
+
+	Object.keys(amountSoldByProduct).forEach(function(item){
+		amount = amountSoldByProduct[item].total_sold
+		totalProductSales.push(amount)
+	})
+
+	var randomColors = productLabels.map(function() {
+		return '#' + Math.floor(Math.random() * 16777215).toString(16);
+	});
+
+	var donutData = {
+		labels: productLabels,
+		datasets: [{
+			data: totalProductSales,
+			backgroundColor: randomColors,
+		}]
+	}
+	var donutOptions = {
+		maintainAspectRatio: false,
+		responsive: true,
+	}
+	//Create pie or douhnut chart
+	// You can switch between pie and douhnut using the method below.
+	new Chart(donutChartCanvas, {
+		type: 'doughnut',
+		data: donutData,
+		options: donutOptions
+	})
+
+})
 </script>
 @endsection
