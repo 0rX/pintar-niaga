@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
             'profilepicture' => null,
             'gender' => 'male',
             'is_active' => 'true',
-            'profilepicture' => null,
             'password' => Hash::make('password'),
         ]);
 
@@ -66,7 +65,6 @@ class DatabaseSeeder extends Seeder
             'category_id' => 1,
             'sale_price' => 7000,
             'description' => 'Indomie Goreng Original',
-            'image' => null,
         ]);
 
         Models\Product::factory(10)->create();

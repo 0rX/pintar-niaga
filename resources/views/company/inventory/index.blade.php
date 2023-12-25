@@ -41,11 +41,11 @@
                                         <label for="purchase_price" class="ms-2">Purchase Price</label>
                                         <input type="number" name="purchase_price" id="purchase_price" class="form-control mb-3 fs-5" required>
                                         <label for="stock" class="ms-2">Stock</label>
-                                        <input type="number" name="stock" id="stock" class="form-control mb-3 fs-5" required>
+                                        <input type="number" min="0" name="stock" id="stock" class="form-control mb-3 fs-5" required>
                                         <label for="amount_unit" class="ms-2">Measure Unit</label>
                                         <input type="text" name="amount_unit" id="amount_unit" class="form-control mb-3 fs-5" required>
                                         <label for="image" class="ms-2">Image</label>
-                                        <input type="file" name="image" id="image" accept="image/.jpg, image/.png, image/.jpeg" class="form-control mb-3 fs-5" required>
+                                        <input type="file" name="image" id="image" accept="image/.jpg, image/.png, image/.jpeg" class="form-control mb-3 fs-5">
                                         <label for="description" class="ms-2">Description</label>
                                         <textarea name="description" id="description" class="form-control mb-3 fs-5" row="3" style="resize:none;"></textarea>
                                     </div>
@@ -138,7 +138,7 @@
                                                                 <label for="name" class="ms-2">Item Name</label>
                                                                 <input value="{{ $ingredient->name }}" type="text" name="name" id="name" class="form-control mb-3 fs-5" required>
                                                                 <label for="stock" class="ms-2">Stock</label>
-                                                                <input value="{{ $ingredient->stock }}" type="number" name="stock" id="stock" class="form-control mb-3 fs-5" required>
+                                                                <input value="{{ $ingredient->stock }}" type="number" min="0" name="stock" id="stock" class="form-control mb-3 fs-5" required>
                                                                 <label for="amount_unit" class="ms-2">Measure Unit</label>
                                                                 <input value="{{ $ingredient->amount_unit }}" type="text" name="amount_unit" id="amount_unit" class="form-control mb-3 fs-5" required>
                                                                 <label for="purchase_price" class="ms-2">Purchase Price</label>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Models\Account;
-use App\Models\Cashin;
+use App\Models\CashIn;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -82,7 +82,7 @@ class CashinController extends Controller
         $data['description'] = $request->description;
         $data['account_id'] = $request->account_id;
         $data['company_id'] = $company->company_id;
-        $cashin = Cashin::create($data);
+        $cashin = CashIn::create($data);
         $ci_index = $account->cashins->pluck('cash_in_id')->search($cashin->cash_in_id);
         $ac_index = $company->accounts->pluck('account_id')->search($account->account_id);
         $account->update(['balance' => $balance]);
@@ -94,7 +94,7 @@ class CashinController extends Controller
 
     public function update(Request $request, $cash_in_id) {
         $data = $request->all();
-        Cashin::findOrFail($cash_in_id)->update($data);
+        CashIn::findOrFail($cash_in_id)->update($data);
         return redirect()->back();
     }
 
