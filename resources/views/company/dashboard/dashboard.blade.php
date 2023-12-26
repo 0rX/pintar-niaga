@@ -120,15 +120,17 @@ $(function() {
 	var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
     
     var sales = {!! $sales !!}
+    
+    // console.log(sales)
 
-	var salesByDate = {};
+	var salesByDate = {}
 
 	sales.forEach(function(sale) {
-		var date = new Date(sale.created_at).toLocaleDateString();
+		var date = new Date(sale.created_at).toLocaleDateString()
 		if (salesByDate[date]) {
-			salesByDate[date] += sale.total_amount;
+			salesByDate[date] += parseInt(sale.total_amount)
 		} else {
-			salesByDate[date] = sale.total_amount;
+			salesByDate[date] = parseInt(sale.total_amount)
 		}
 	});
 
@@ -152,7 +154,7 @@ $(function() {
 				label: 'Daily Sales',
 				backgroundColor: 'rgba(156, 254, 167, 0.3)',
 				borderColor: 'rgba(60,141,150,0.8)',
-				pointRadius: 3,
+				pointRadius: 5,
 				pointColor: '#3b8bba',
 				pointStrokeColor: 'rgba(60,141,188,1)',
 				pointHighlightFill: '#fff',
@@ -195,7 +197,7 @@ $(function() {
 	var barChartCanvas = $('#barChart').get(0).getContext('2d')
 
     var amountSoldByCategory = {!! json_encode($amountSoldByCategory) !!}
-    // console.log(amountSoldByCategory)
+    //console.log(amountSoldByCategory)
     
     var categoryLabels = amountSoldByCategory.map(function(item) {
       return item.name;

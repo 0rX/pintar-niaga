@@ -146,6 +146,8 @@ var incomesData = salesData.concat(cashinsData);
 
 var expensesData = purchasesData.concat(paymentsData)
 
+// console.log(expensesData);
+
 var dailySums = {};
 
 // Loop through the sales data
@@ -153,7 +155,7 @@ for (var i = 0; i < incomesData.length; i++) {
     var income = incomesData[i];
     var day = new Date(income.created_at).toLocaleDateString();
     if (dailySums[day]) {
-        dailySums[day].incomes += income.total_amount;
+        dailySums[day].incomes = parseInt(dailySums[day].incomes) + parseInt(income.total_amount);
     } else {
         dailySums[day] = { incomes: income.total_amount, expenses: 0 };
     }
@@ -164,7 +166,7 @@ for (var i = 0; i < expensesData.length; i++) {
     var expense = expensesData[i];
     var day = new Date(expense.created_at).toLocaleDateString();
     if (dailySums[day]) {
-        dailySums[day].expenses += expense.total_amount;
+        dailySums[day].expenses = parseInt(dailySums[day].expenses) + parseInt(expense.total_amount);
     } else {
         dailySums[day] = { incomes: 0, expenses: expense.total_amount };
     }

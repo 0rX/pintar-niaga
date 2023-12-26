@@ -49,8 +49,8 @@ class CompanyDashboard extends Controller
             $currentMonth = now()->format('m');
             $amountSold = $soldProducts
                 ->filter(function ($soldProduct) use ($currentMonth, $category) {
-                    return $soldProduct->product->category_id === $category->category_id
-                        && $soldProduct->created_at->format('m') === $currentMonth;
+                    return $soldProduct->product->category_id == $category->category_id
+                        && $soldProduct->created_at->format('m') == $currentMonth;
                 })
                 ->sum('amount');
             // $amountSold = $soldProducts->where('product.category_id', $category->category_id)->sum('amount');
