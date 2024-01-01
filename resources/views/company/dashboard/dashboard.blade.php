@@ -197,14 +197,14 @@ $(function() {
 	var barChartCanvas = $('#barChart').get(0).getContext('2d')
 
     var amountSoldByCategory = {!! json_encode($amountSoldByCategory) !!}
-    //console.log(amountSoldByCategory)
+    // console.log(amountSoldByCategory)
     
     var categoryLabels = amountSoldByCategory.map(function(item) {
       return item.name;
     });
 
     var totalSalesAmounts = amountSoldByCategory.map(function(item) {
-      return item.total_sold;
+      return parseInt(item.total_sold);
     });
 
 	var randomColors = categoryLabels.map(function() {

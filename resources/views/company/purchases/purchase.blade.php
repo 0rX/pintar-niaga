@@ -101,7 +101,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card px-3 py-2"  style="height: 500px;">
-                    <div class="custom-scrollbar" style="overflow-y:auto;">
+                    <div id="receipt-print" class="card-body px-0 mx-0 custom-scrollbar align-self-center" style="overflow-y:auto; width: 312px;">
                         <div class="row" style="max-height: 140px;">
                             <div class="col-md-4 justify-content-center align-items-center text-center">
                                 <img style="height: 90px;" src="/storage/assets/logo/logo-blank-bg-1.svg" alt="">
@@ -137,8 +137,8 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="3" class="text-end">Grand Total</td>
-                                            <td class="grand-total-receipt" data-total-receipt="0">
+                                            <td colspan="3" class="text-end fw-bold">Grand Total</td>
+                                            <td class="grand-total-receipt text-end fw-bold" data-total-receipt="0">
                                                 Rp 0
                                             </td>
                                         </tr>
@@ -413,7 +413,7 @@ $('#items-cart').on('DOMSubtreeModified', function() {
             '<td class="text-start item-name">' + itemName + '</td>' +
             '<td class="text-center">' + quantity + '</td>' +
             '<td class="text-center">' + price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', currencyDisplay: 'symbol', minimumFractionDigits: 0, maximumFractionDigits: 0 }) + '</td>' +
-            '<td class="text-center">' + total.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', currencyDisplay: 'symbol', minimumFractionDigits: 0, maximumFractionDigits: 0 }) + '</td>' +
+            '<td class="text-end">' + total.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', currencyDisplay: 'symbol', minimumFractionDigits: 0, maximumFractionDigits: 0 }) + '</td>' +
             '</tr>';
 
         $('#items-receipt').append(newRow);
