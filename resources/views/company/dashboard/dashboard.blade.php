@@ -199,11 +199,11 @@ $(function() {
     var amountSoldByCategory = {!! json_encode($amountSoldByCategory) !!}
     // console.log(amountSoldByCategory)
     
-    var categoryLabels = amountSoldByCategory.map(function(item) {
+    var categoryLabels = Object.values(amountSoldByCategory).map(function(item) {
       return item.name;
     });
 
-    var totalSalesAmounts = amountSoldByCategory.map(function(item) {
+    var totalSalesAmounts = Object.values(amountSoldByCategory).map(function(item) {
       return parseInt(item.total_sold);
     });
 
