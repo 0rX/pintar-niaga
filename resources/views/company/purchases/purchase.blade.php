@@ -348,7 +348,7 @@ $(document).ready(function() {
             var newRow = '<tr>' +
                 '<td class="text-start item-name">' + item['name'] + '</td>' +
                 '<td class="d-flex justify-content-center"><input type="number" value="0" name="quantity" id="quantity'+item['ingredient_id']+'" class="quantity form-control my-1 border-1 border-dark" style="width: 120px;" min="0" required></td>' +
-                '<td id="purchase-base'+item['ingredient_id']+'" class="text-center purchase-base" data-base-price="'+ item['purchase_price'] +'">' + item['purchase_price'].toLocaleString('id-ID', { style: 'currency', currency: 'IDR', currencyDisplay: 'symbol', minimumFractionDigits: 0, maximumFractionDigits: 0 }) + '</td>' +
+                '<td id="purchase-base'+item['ingredient_id']+'" class="text-center purchase-base" data-base-price="'+ item['purchase_price'] +'">' + parseInt(item['purchase_price']).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', currencyDisplay: 'symbol', minimumFractionDigits: 0, maximumFractionDigits: 0 }) + '</td>' +
                 '<td id="purchase-total'+item['ingredient_id']+'" class="text-center purchase-total" data-total-price="0">' + 0 + '</td>' +
                 '<td class="text-center"><button type="button" class="btn btn-danger btn-sm remove-button">Remove</button></td>' +
                 '</tr>';
