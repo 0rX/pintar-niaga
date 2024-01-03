@@ -67,14 +67,14 @@
                                                         <tbody id="tbody">
                                                             <tr>
                                                                 <td>
-                                                                    <select class="mt-2 py-1" name="ingredients[0][name]">
+                                                                    <select class="mt-2 py-1" name="ingredients[0][name]" required>
                                                                         @foreach($ingredients as $ingredient)
                                                                             <option value="{{ $ingredient->name }}">{{ Str::limit($ingredient->name, 30) }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </td>
                                                                 <td>
-                                                                    <input class="mt-2" type="number" name="ingredients[0][amount]" placeholder="Amount">
+                                                                    <input class="mt-2" type="number" name="ingredients[0][amount]" placeholder="Amount" required>
                                                                 </td>
                                                                 <td>
                                                                     <button type="button" class="remove-ingredient btn btn-lg btn-danger">
