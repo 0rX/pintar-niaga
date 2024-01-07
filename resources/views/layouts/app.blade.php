@@ -21,8 +21,8 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ url('/storage/assets/logo/favicon.ico') }}" type="x-icon">
-    <link rel="icon" href="{{ url('/storage/assets/logo/favicon.ico') }}" type="x-icon">
+    <link rel="shortcut icon" href="{{ url('/favicon.ico') }}" type="x-icon">
+    <link rel="icon" href="{{ url('/favicon.ico') }}" type="x-icon">
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- <script src="https://adminlte.io/themes/v3/plugins/jquery/jquery.min.js"></script> --}}
