@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [CompanyDashboard::class, 'companyDashboard', $cp_index])->name('companyDashboard');
         Route::get('/accounts', [AccountController::class, 'accountIndex', $cp_index])->name('accountIndex');
         Route::get('/accounts/{ac_index}', [AccountController::class, 'accountOV'])->name('account');
+        Route::get('/accounts/{ac_index}/report', [AccountController::class, 'report'])->name('accountReport');
         Route::get('/accounts/{ac_index}/cash-in/{ci_index}', [CashinController::class, 'cashinOV'])->name('cashin');
         Route::get('/accounts/{ac_index}/payment/{pm_index}', [PaymentController::class, 'paymentOV'])->name('payment');
         Route::get('/cash-in/create', [CashinController::class, 'cashinIndex'])->name('cashinIndex');

@@ -64,7 +64,7 @@
                         @php
                             $cp_index += 1;
                         @endphp
-                        <div class="table">
+                        <div id="dataInventory" class="table">
                             <table class="table table-striped align-middle table-primary">
                                 <thead>
                                     <tr>
@@ -167,6 +167,59 @@
             </div>
         </div>
     </div>
+    <div class="row justify-content-center">
+        @if ($ingredients->count() > 0)
+        <div class="col-md-11">
+            <button type="button" id="printReport" class="btn btn-lg btn-primary text-light fw-bold fs-5">
+                <i class="bx bxs-printer align-middle"></i> Print
+            </button>
+            <button type="button" id="savePDF" class="btn btn-lg btn-primary text-light fw-bold fs-5">
+                <i class="bx bxs-download align-middle"></i> PDF
+            </button>
+        </div>
+        @endif
+    </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+
+let printButton = document.getElementById('printReport');
+let savePDF = document.getElementById('savePDF');
+let tableWhole = document.getElementById('dataInventory');
+
+savePDF.addEventListener('click', function() {
+    // Generate the PDF
+    const options = {
+        filename: 'table.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    // Save the tableWhole HTML as PDF
+    html2pdf().set(options).from(tableWhole).save();
+    // location.reload();
+    
+});
+
+printButton.addEventListener('click', function() {
+    printTable(tableWhole);
+});
+
+function printTable(table) {
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = table.innerHTML;
+    window.print();
+    
+    alert("Report printed!");
+    console.log("Report printed!");
+
+    document.body.innerHTML = originalContents;
+    location.reload();
+}
+
+</script>
 
 @endsection

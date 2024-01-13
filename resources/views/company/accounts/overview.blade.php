@@ -64,6 +64,13 @@
                                     <td>Rp. {{ number_format($synchronizeDB) }}</td>
                                 </tr>
                             </table>
+                            <div class="d-flex justify-content-center">
+                                @php
+                                    $ac_index += 1;
+                                    $cp_index += 1;
+                                @endphp
+                                <a href="/manage/{{ $cp_index }}/accounts/{{ $ac_index }}/report" class="btn btn-primary"><i class="bx bxs-report"></i>Print Report</a>
+                            </div>
                         </div>
                     </div>
                 </div>
