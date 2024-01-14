@@ -112,11 +112,11 @@
         <li>
             <a href="/index">
                 <i class="bx bx-door-open"></i>
-                <span class="link_name">Return</span>
+                <span class="link_name">User Dashboard</span>
             </a>
             <ul class="sub-menu blank">
                 <li>
-                    <a class="link_name" href="/index">Return Home</a>
+                    <a class="link_name" href="/index">User Dashboard</a>
                 </li>
             </ul>
         </li>
